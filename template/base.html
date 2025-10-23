@@ -89,7 +89,7 @@
 </head>
 <body>
   <div class="slide-counter">
-    <span id="current-slide">1</span> / <span id="total-slides">5</span>
+    <span id="current-slide">1</span> / <span id="total-slides">{{ slides|length }}</span>
   </div>
   
   <div class="slide-controls">
@@ -97,46 +97,9 @@
     <button id="next-btn" onclick="nextSlide()">次へ →</button>
   </div>
 
-  
-    <div class="slide" style="background: linear-gradient(135deg, #007BFF, #00AEEF); color: white;">
-    <h1 style="font-size: 56px; margin-bottom: 20px;">玉ねぎの魅力</h1>
-    <p style="font-size: 24px; opacity: 0.9;">玉ねぎについてのプレゼンテーションへようこそ。今回は、玉ねぎの特徴や健康効果、料理での使い方についてお話しします。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
-  
-  
-    <div class="slide" style="padding: 60px;">
-    <h2 style="font-size: 40px; color: #007BFF; margin-bottom: 20px;">目次</h2>
-    <p style="font-size: 22px; line-height: 1.6;">1. 玉ねぎの基本情報
-2. 健康効果
-3. 調理法
-4. 保存方法
-5. まとめ</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
-  
-  
-    <div class="slide" style="padding: 60px 80px;">
-    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">玉ねぎの基本情報</h2>
-    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎは、古くから世界中で愛されている野菜です。栄養価が高く、甘みと辛みを持ち、様々な料理に使われます。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
-  
-  
-    <div class="slide" style="padding: 60px 80px;">
-    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">健康効果</h2>
-    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎには抗酸化物質や食物繊維が豊富で、免疫力の向上や心血管疾患の予防に役立つとされています。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
-  
-  
-    <div class="slide" style="background: #E6F0FF; padding: 60px;">
-    <h2 style="font-size: 40px; color: #0056b3; margin-bottom: 20px;">まとめ</h2>
-    <p style="font-size: 22px; line-height: 1.8; color: #222;">玉ねぎは栄養満点で、家庭料理に欠かせない存在です。健康効果を意識しつつ、日々の食卓に取り入れましょう。</p>
-    <footer>© 2025 Onion Company — All Rights Reserved</footer>
-  </div>
-  
-  
+  {% for slide in slides %}
+    {% include slide.type + ".html" %}
+  {% endfor %}
 
   <script>
     let currentSlideIndex = 0;
