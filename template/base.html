@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>AIスライド生成</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      opacity: 0;
+      transform: translate(-50%, -50%) translateX(100%);
+      transition: all 0.5s ease-in-out;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateX(0);
+    }
+    .slide.prev {
+      transform: translate(-50%, -50%) translateX(-100%);
+    }
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: #007BFF;
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    .slide-counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .slide-controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+    .slide-controls button {
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .slide-controls button:hover {
+      background: rgba(0, 123, 255, 1);
+    }
+    .slide-controls button:disabled {
+      background: rgba(0, 123, 255, 0.3);
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-counter">
+    <span id="current-slide">1</span> / <span id="total-slides">{{ slides|length }}</span>
+  </div>
+  
+  <div class="slide-controls">
+    <button id="prev-btn" onclick="previousSlide()">← 前へ</button>
+    <button id="next-btn" onclick="nextSlide()">次へ →</button>
+  </div>
+
+  {% for slide in slides %}
+    {% include slide.type + ".html" %}
+  {% endfor %}
+
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    // 初期化
+    function initSlides() {
+      slides.forEach((slide, index) => {
+        if (index === 0) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      updateCounter();
+      updateButtons();
+    }
+    
+    // スライド表示
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === index) {
+          slide.classList.add('active');
+        } else if (i < index) {
+          slide.classList.add('prev');
+        }
+      });
+      currentSlideIndex = index;
+      updateCounter();
+      updateButtons();
+    }
+    
+    // 次のスライド
+    function nextSlide() {
+      if (currentSlideIndex < totalSlides - 1) {
+        showSlide(currentSlideIndex + 1);
+      }
+    }
+    
+    // 前のスライド
+    function previousSlide() {
+      if (currentSlideIndex > 0) {
+        showSlide(currentSlideIndex - 1);
+      }
+    }
+    
+    // カウンター更新
+    function updateCounter() {
+      document.getElementById('current-slide').textContent = currentSlideIndex + 1;
+      document.getElementById('total-slides').textContent = totalSlides;
+    }
+    
+    // ボタン状態更新
+    function updateButtons() {
+      document.getElementById('prev-btn').disabled = currentSlideIndex === 0;
+      document.getElementById('next-btn').disabled = currentSlideIndex === totalSlides - 1;
+    }
+    
+    // キーボードイベント
+    document.addEventListener('keydown', function(event) {
+      switch(event.key) {
+        case 'ArrowRight':
+        case ' ':
+          event.preventDefault();
+          nextSlide();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          previousSlide();
+          break;
+        case 'Home':
+          event.preventDefault();
+          showSlide(0);
+          break;
+        case 'End':
+          event.preventDefault();
+          showSlide(totalSlides - 1);
+          break;
+      }
+    });
+    
+    // 初期化実行
+    initSlides();
+  </script>
+</body>
+</html>
