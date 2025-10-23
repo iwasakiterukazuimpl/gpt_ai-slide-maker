@@ -2,121 +2,226 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Slide Deck</title>
+  <title>AIスライド生成</title>
   <style>
     body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f5f7fa;
+      color: #222;
       margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #f5f7fa;
+      padding: 0;
+      overflow: hidden;
     }
-
     .slide {
       width: 1280px;
       height: 720px;
-      margin: 40px auto;
       background: white;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 40px 60px;
-      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      opacity: 0;
+      transform: translate(-50%, -50%) translateX(100%);
+      transition: all 0.5s ease-in-out;
     }
-
-    .slide h1 {
-      font-size: 2.4rem;
-      color: #333;
-      margin-bottom: 1.2rem;
+    .slide.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateX(0);
     }
-
-    .slide p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #555;
-      flex-grow: 1;
+    .slide.prev {
+      transform: translate(-50%, -50%) translateX(-100%);
     }
-
     footer {
-      background-color: #0074D9;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: #007BFF;
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    .slide-counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 123, 255, 0.9);
       color: white;
       padding: 10px 20px;
-      border-radius: 0 0 16px 16px;
-      font-size: 0.9rem;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .slide-controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+    }
+    .slide-controls button {
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .slide-controls button:hover {
+      background: rgba(0, 123, 255, 1);
+    }
+    .slide-controls button:disabled {
+      background: rgba(0, 123, 255, 0.3);
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
-  
-  <div class="slide">
-    <div>
-      <h1>国産たまねぎを使った新しい価値提案</h1>
-      <p>本プレゼンテーションでは、国産たまねぎを活用した新たなビジネスモデルを提案します。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 1</span>
-    </footer>
+  <div class="slide-counter">
+    <span id="current-slide">1</span> / <span id="total-slides">5</span>
   </div>
   
-  <div class="slide">
-    <div>
-      <h1>市場背景</h1>
-      <p>健康志向の高まりと共に、国産食材への需要が増加しています。特に、たまねぎはその栄養価と多様な用途から注目されています。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 2</span>
-    </footer>
+  <div class="slide-controls">
+    <button id="prev-btn" onclick="previousSlide()">← 前へ</button>
+    <button id="next-btn" onclick="nextSlide()">次へ →</button>
+  </div>
+
+  
+    <div class="slide" style="background: linear-gradient(135deg, #007BFF, #00AEEF); color: white;">
+    <h1 style="font-size: 56px; margin-bottom: 20px;">玉ねぎの魅力</h1>
+    <p style="font-size: 24px; opacity: 0.9;">玉ねぎについてのプレゼンテーションへようこそ。今回は、玉ねぎの特徴や健康効果、料理での使い方についてお話しします。</p>
+    <footer>© 2025 Onion Company</footer>
   </div>
   
-  <div class="slide">
-    <div>
-      <h1>特徴</h1>
-      <p>国産たまねぎは、低農薬栽培や有機栽培が進んでおり、風味や甘みが優れています。また、地元産の新鮮さが保証されています。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 3</span>
-    </footer>
+  
+    <div class="slide" style="padding: 60px;">
+    <h2 style="font-size: 40px; color: #007BFF; margin-bottom: 20px;">目次</h2>
+    <p style="font-size: 22px; line-height: 1.6;">1. 玉ねぎの基本情報
+2. 健康効果
+3. 調理法
+4. 保存方法
+5. まとめ</p>
+    <footer>© 2025 Onion Company</footer>
   </div>
   
-  <div class="slide">
-    <div>
-      <h1>差別化</h1>
-      <p>他社製品と比べ、国産たまねぎを使用した商品は品質の高さと安心感が特徴です。さらに、地域活性化に貢献する取り組みを行っています。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 4</span>
-    </footer>
+  
+    <div class="slide" style="padding: 60px 80px;">
+    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">玉ねぎの基本情報</h2>
+    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎは、古くから世界中で愛されている野菜です。栄養価が高く、甘みと辛みを持ち、様々な料理に使われます。</p>
+    <footer>© 2025 Onion Company</footer>
   </div>
   
-  <div class="slide">
-    <div>
-      <h1>ターゲット</h1>
-      <p>健康志向の家庭や、料理にこだわるレストランが主なターゲットです。また、エコ意識の高い消費者層にもアプローチします。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 5</span>
-    </footer>
+  
+    <div class="slide" style="padding: 60px 80px;">
+    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">健康効果</h2>
+    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎには抗酸化物質や食物繊維が豊富で、免疫力の向上や心血管疾患の予防に役立つとされています。</p>
+    <footer>© 2025 Onion Company</footer>
   </div>
   
-  <div class="slide">
-    <div>
-      <h1>まとめ</h1>
-      <p>国産たまねぎを用いた新しい価値提案は、品質の高さと持続可能性を兼ね備えています。この機会に、新たな市場を開拓しましょう。</p>
-    </div>
-    <footer>
-      <span>© 2025 Onion Project</span>
-      <span>Slide 6</span>
-    </footer>
+  
+    <div class="slide" style="background: #E6F0FF; padding: 60px;">
+    <h2 style="font-size: 40px; color: #0056b3; margin-bottom: 20px;">まとめ</h2>
+    <p style="font-size: 22px; line-height: 1.8; color: #222;">玉ねぎは栄養満点で、家庭料理に欠かせない存在です。健康効果を意識しつつ、日々の食卓に取り入れましょう。</p>
+    <footer>© 2025 Onion Company — All Rights Reserved</footer>
   </div>
   
+  
+
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    // 初期化
+    function initSlides() {
+      slides.forEach((slide, index) => {
+        if (index === 0) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      updateCounter();
+      updateButtons();
+    }
+    
+    // スライド表示
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === index) {
+          slide.classList.add('active');
+        } else if (i < index) {
+          slide.classList.add('prev');
+        }
+      });
+      currentSlideIndex = index;
+      updateCounter();
+      updateButtons();
+    }
+    
+    // 次のスライド
+    function nextSlide() {
+      if (currentSlideIndex < totalSlides - 1) {
+        showSlide(currentSlideIndex + 1);
+      }
+    }
+    
+    // 前のスライド
+    function previousSlide() {
+      if (currentSlideIndex > 0) {
+        showSlide(currentSlideIndex - 1);
+      }
+    }
+    
+    // カウンター更新
+    function updateCounter() {
+      document.getElementById('current-slide').textContent = currentSlideIndex + 1;
+      document.getElementById('total-slides').textContent = totalSlides;
+    }
+    
+    // ボタン状態更新
+    function updateButtons() {
+      document.getElementById('prev-btn').disabled = currentSlideIndex === 0;
+      document.getElementById('next-btn').disabled = currentSlideIndex === totalSlides - 1;
+    }
+    
+    // キーボードイベント
+    document.addEventListener('keydown', function(event) {
+      switch(event.key) {
+        case 'ArrowRight':
+        case ' ':
+          event.preventDefault();
+          nextSlide();
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          previousSlide();
+          break;
+        case 'Home':
+          event.preventDefault();
+          showSlide(0);
+          break;
+        case 'End':
+          event.preventDefault();
+          showSlide(totalSlides - 1);
+          break;
+      }
+    });
+    
+    // 初期化実行
+    initSlides();
+  </script>
 </body>
 </html>
