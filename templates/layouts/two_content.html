@@ -1,0 +1,42 @@
+<div class="slide slide-two-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>{{ slide.title }}</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 2つのコンテンツボックス -->
+    <div class="two-content-container">
+        <div class="content-box left-content">
+            {% if slide.left_image_path %}
+            <img src="{{ slide.left_image_path }}" alt="{{ slide.title }} (左)" class="content-image">
+            {% elif slide.left_content %}
+            {{ slide.left_content }}
+            {% else %}
+            <div class="content-placeholder">
+                <p>左側コンテンツエリア</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="content-box right-content">
+            {% if slide.right_image_path %}
+            <img src="{{ slide.right_image_path }}" alt="{{ slide.title }} (右)" class="content-image">
+            {% elif slide.right_content %}
+            {{ slide.right_content }}
+            {% else %}
+            <div class="content-placeholder">
+                <p>右側コンテンツエリア</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+
+</div>

@@ -1,0 +1,27 @@
+<div class="slide slide-title {% if is_first %}active{% endif %}">
+
+    <!-- 左側のコンテンツ -->
+    <div class="title-info-box">
+        <div class="title-content">
+            <h1>{{ slide.title }}</h1>
+            <p>{{ slide.body }}</p>
+        </div>
+    </div>
+    
+    <!-- 右側の白いボックス -->
+        <div class="logo-section">
+            <img src="images/logo.png" alt="impl-logo" class="title-logo">
+        </div>
+        <div class="author-info">
+                <div class="company">株式会社インプル</div>
+                <div class="company-position">ビジネスエンジニアチーム</div>
+                <div class="author-name">岩崎 晃和</div>                
+        </div>
+
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+</div>
+  

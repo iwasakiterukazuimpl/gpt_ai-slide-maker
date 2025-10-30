@@ -1,0 +1,54 @@
+<div class="slide slide-right-content-left-bullets">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>{{ slide.title }}</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 2カラムコンテナ -->
+    <div class="two-column-container">
+        <!-- 左側：箇条書き -->
+        <div class="left-column bullets-column">
+            {% if slide.left_bullets %}
+                {% if slide.bullet_type == "numbered" or slide.bullet_type == "ordered" %}
+                <ol>
+                    {% for item in slide.left_bullets %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <ul>
+                    {% for item in slide.left_bullets %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            {% else %}
+            <div class="content-placeholder">
+                <p>箇条書きエリア</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- 右側：コンテンツボックス -->
+        <div class="right-column content-column">
+            {% if slide.right_image_path %}
+            <img src="{{ slide.right_image_path }}" alt="{{ slide.title }}" class="content-image">
+            {% elif slide.right_content %}
+            {{ slide.right_content }}
+            {% else %}
+            <div class="content-placeholder">
+                <p>コンテンツエリア</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+
+</div>
