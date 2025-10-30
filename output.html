@@ -1,227 +1,336 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>AIスライド生成</title>
-  <style>
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: #f5f7fa;
-      color: #222;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-    .slide {
-      width: 1280px;
-      height: 720px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      overflow: hidden;
-      opacity: 0;
-      transform: translate(-50%, -50%) translateX(100%);
-      transition: all 0.5s ease-in-out;
-    }
-    .slide.active {
-      opacity: 1;
-      transform: translate(-50%, -50%) translateX(0);
-    }
-    .slide.prev {
-      transform: translate(-50%, -50%) translateX(-100%);
-    }
-    footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background: #007BFF;
-      color: white;
-      text-align: center;
-      font-size: 14px;
-      padding: 8px 0;
-    }
-    .slide-counter {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(0, 123, 255, 0.9);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-size: 16px;
-      font-weight: bold;
-      z-index: 1000;
-    }
-    .slide-controls {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 1000;
-    }
-    .slide-controls button {
-      background: rgba(0, 123, 255, 0.9);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s;
-    }
-    .slide-controls button:hover {
-      background: rgba(0, 123, 255, 1);
-    }
-    .slide-controls button:disabled {
-      background: rgba(0, 123, 255, 0.3);
-      cursor: not-allowed;
-    }
-  </style>
-</head>
-<body>
-  <div class="slide-counter">
-    <span id="current-slide">1</span> / <span id="total-slides">5</span>
-  </div>
   
-  <div class="slide-controls">
-    <button id="prev-btn" onclick="previousSlide()">← 前へ</button>
-    <button id="next-btn" onclick="nextSlide()">次へ →</button>
-  </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>スライド生成</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
 
   
-    <div class="slide" style="background: linear-gradient(135deg, #007BFF, #00AEEF); color: white;">
-    <h1 style="font-size: 56px; margin-bottom: 20px;">玉ねぎの魅力</h1>
-    <p style="font-size: 24px; opacity: 0.9;">玉ねぎについてのプレゼンテーションへようこそ。今回は、玉ねぎの特徴や健康効果、料理での使い方についてお話しします。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
+    
+<div class="slide slide-title active">
+
+    <!-- 左側のコンテンツ -->
+    <div class="title-info-box">
+        <div class="title-content">
+            <h1>AIエージェント時代の到来：Devinが変えるソフトウェア開発</h1>
+            <p>外部パートナー向け講演
+Devinのエージェント性能の魅力を紹介</p>
+        </div>
+    </div>
+    
+    <!-- 右側の白いボックス -->
+        <div class="logo-section">
+            <img src="images/logo.png" alt="impl-logo" class="title-logo">
+        </div>
+        <div class="author-info">
+                <div class="company">株式会社インプル</div>
+                <div class="company-position">ビジネスエンジニアチーム</div>
+                <div class="author-name">岩崎 晃和</div>                
+        </div>
+
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">1</div>
+    </div>
+</div>
+    
   
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>AIが“指示を理解し、仕事を進める”時代へ</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- AIの進化の流れ：ChatGPT → Copilot → Devin
+- なぜAIエージェントが注目されているのか
+- Devin登場のインパクト</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">2</div>
+    </div>
+
+</div>
+    
   
-    <div class="slide" style="padding: 60px;">
-    <h2 style="font-size: 40px; color: #007BFF; margin-bottom: 20px;">目次</h2>
-    <p style="font-size: 22px; line-height: 1.6;">1. 玉ねぎの基本情報
-2. 健康効果
-3. 調理法
-4. 保存方法
-5. まとめ</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devinとは何か</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- Cognition社が開発した世界初の“ソフトウェアエンジニアAI”
+- エンドツーエンドでソフトウェア開発を遂行
+- GitHub操作、タスク管理、実行テストまで自動化</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">3</div>
+    </div>
+
+</div>
+    
   
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devinの特徴①：自律的なタスク遂行能力</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- Devinは“指示待ち”ではない
+- 指示を受けて自らタスクを分解し、実行計画を立案
+- コード生成→動作確認→修正→再実行まで一貫して実施</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">4</div>
+    </div>
+
+</div>
+    
   
-    <div class="slide" style="padding: 60px 80px;">
-    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">玉ねぎの基本情報</h2>
-    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎは、古くから世界中で愛されている野菜です。栄養価が高く、甘みと辛みを持ち、様々な料理に使われます。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devinの特徴②：開発エコシステムとの連携</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- GitHub、ターミナル、ブラウザを自由に操作
+- 外部API・ツールとの連携も可能
+- エンジニアが自然に受け入れられるワークフロー</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">5</div>
+    </div>
+
+</div>
+    
   
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devinの特徴③：学習と継続的改善</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- 成果物やレビューをもとにパフォーマンスを改善
+- チーム・プロジェクト固有の文脈を吸収
+- 「ただのツール」ではなく「同僚AI」として成長</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">6</div>
+    </div>
+
+</div>
+    
   
-    <div class="slide" style="padding: 60px 80px;">
-    <h2 style="font-size: 36px; color: #007BFF; margin-bottom: 16px;">健康効果</h2>
-    <p style="font-size: 20px; line-height: 1.8; color: #333; max-width: 900px;">玉ねぎには抗酸化物質や食物繊維が豊富で、免疫力の向上や心血管疾患の予防に役立つとされています。</p>
-    <footer>© 2025 Onion Company</footer>
-  </div>
+    
+<div class="slide slide-table">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devin活用ユースケース</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 本文 -->
+    <div class="body-text">
+        <table>
+            <thead>
+                <tr>
+                    
+                    <th>領域</th>
+                    
+                    <th>活用内容</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    
+                    <td>テスト自動化</td>
+                    
+                    <td>単体テストや統合テストを自動生成・実行</td>
+                    
+                </tr>
+                
+                <tr>
+                    
+                    <td>バグ修正</td>
+                    
+                    <td>エラーログ解析から修正コード提案まで自動化</td>
+                    
+                </tr>
+                
+                <tr>
+                    
+                    <td>ドキュメント生成</td>
+                    
+                    <td>コードコメントや仕様書を自動生成</td>
+                    
+                </tr>
+                
+                <tr>
+                    
+                    <td>CI/CD補助</td>
+                    
+                    <td>パイプライン構築やリリースタスクを自動実行</td>
+                    
+                </tr>
+                
+            </tbody>
+        </table>
+
+        
+        <p class="note">※ 各事例はDevinの代表的な利用イメージです。</p>
+        
+    </div>
+
+    <!-- フッター -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">7</div>
+    </div>
+
+</div>
+    
   
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>Devin導入のメリット</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- 開発スピードと品質の向上
+- 人的リソースの最適化
+- コスト削減＋新しい価値創造</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">8</div>
+    </div>
+
+</div>
+    
   
-    <div class="slide" style="background: #E6F0FF; padding: 60px;">
-    <h2 style="font-size: 40px; color: #0056b3; margin-bottom: 20px;">まとめ</h2>
-    <p style="font-size: 22px; line-height: 1.8; color: #222;">玉ねぎは栄養満点で、家庭料理に欠かせない存在です。健康効果を意識しつつ、日々の食卓に取り入れましょう。</p>
-    <footer>© 2025 Onion Company — All Rights Reserved</footer>
-  </div>
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>AIエージェント導入の課題と展望</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- セキュリティ・品質保証・責任範囲の明確化が必要
+- Devinの今後の進化方向：チーム連携・拡張性の強化</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">9</div>
+    </div>
+
+</div>
+    
   
+    
+<div class="slide slide-content">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>まとめ：Devinとともに次の開発スタンダードへ</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <div class="body-text">- Devinは“開発者の相棒”
+- 共に新しい開発文化を創る
+- 次のステップ：PoCや共同プロジェクトから始めましょう</div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">10</div>
+    </div>
+
+</div>
+    
   
 
   <script>
-    let currentSlideIndex = 0;
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-    
-    // 初期化
-    function initSlides() {
-      slides.forEach((slide, index) => {
-        if (index === 0) {
-          slide.classList.add('active');
-        } else {
-          slide.classList.remove('active');
-        }
-      });
-      updateCounter();
-      updateButtons();
-    }
-    
-    // スライド表示
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.remove('active', 'prev');
-        if (i === index) {
-          slide.classList.add('active');
-        } else if (i < index) {
-          slide.classList.add('prev');
-        }
-      });
-      currentSlideIndex = index;
-      updateCounter();
-      updateButtons();
-    }
-    
-    // 次のスライド
-    function nextSlide() {
-      if (currentSlideIndex < totalSlides - 1) {
-        showSlide(currentSlideIndex + 1);
-      }
-    }
-    
-    // 前のスライド
-    function previousSlide() {
-      if (currentSlideIndex > 0) {
-        showSlide(currentSlideIndex - 1);
-      }
-    }
-    
-    // カウンター更新
-    function updateCounter() {
-      document.getElementById('current-slide').textContent = currentSlideIndex + 1;
-      document.getElementById('total-slides').textContent = totalSlides;
-    }
-    
-    // ボタン状態更新
-    function updateButtons() {
-      document.getElementById('prev-btn').disabled = currentSlideIndex === 0;
-      document.getElementById('next-btn').disabled = currentSlideIndex === totalSlides - 1;
-    }
-    
-    // キーボードイベント
-    document.addEventListener('keydown', function(event) {
-      switch(event.key) {
-        case 'ArrowRight':
-        case ' ':
-          event.preventDefault();
-          nextSlide();
-          break;
-        case 'ArrowLeft':
-          event.preventDefault();
-          previousSlide();
-          break;
-        case 'Home':
-          event.preventDefault();
-          showSlide(0);
-          break;
-        case 'End':
-          event.preventDefault();
-          showSlide(totalSlides - 1);
-          break;
+    // JSで1枚ずつ切り替え（← →キー）
+    document.addEventListener('keydown', (e) => {
+      const slides = document.querySelectorAll('.slide');
+      let current = Array.from(slides).findIndex(s => s.classList.contains('active'));
+      
+      console.log('Total slides:', slides.length);
+      console.log('Current slide index:', current);
+      console.log('Key pressed:', e.key);
+      
+      if (e.key === 'ArrowRight' && current < slides.length - 1) {
+        console.log('Moving to next slide:', current + 1);
+        // すべてのスライドを非表示にしてから次のスライドを表示
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[current + 1].classList.add('active');
+      } else if (e.key === 'ArrowLeft' && current > 0) {
+        console.log('Moving to previous slide:', current - 1);
+        // すべてのスライドを非表示にしてから前のスライドを表示
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[current - 1].classList.add('active');
+      } else if (e.key === 'ArrowRight' && current === -1) {
+        // アクティブなスライドがない場合のフォールバック
+        console.log('No active slide found, activating first slide');
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[0].classList.add('active');
       }
     });
     
-    // 初期化実行
-    initSlides();
+    // 初期化時にスライド数を表示
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      console.log('Page loaded. Total slides:', slides.length);
+      slides.forEach((slide, index) => {
+        console.log(`Slide ${index}:`, slide.className);
+      });
+      
+      // すべてのスライドを非表示にして、最初のスライドのみアクティブにする
+      slides.forEach(slide => slide.classList.remove('active'));
+      if (slides.length > 0) {
+        console.log('Activating first slide');
+        slides[0].classList.add('active');
+      }
+    });
   </script>
 </body>
 </html>

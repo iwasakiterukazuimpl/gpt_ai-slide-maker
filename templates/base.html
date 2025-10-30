@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+  
+<head>
+  <meta charset="UTF-8" />
+  <title>スライド生成</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  {% for slide in slides %}
+    {% set is_first = loop.first %}
+    {% set slide_index = loop.index %}
+    {% include ['layouts/' ~ slide.layout ~ '.html', 'layouts/content.html'] ignore missing %}
+  {% endfor %}
+
+  <script>
+    function goToNextSlide() {
+      const slides = document.querySelectorAll('.slide');
+      let current = Array.from(slides).findIndex(s => s.classList.contains('active'));
+      
+      if (current < slides.length - 1) {
+        console.log('Moving to next slide:', current + 1);
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[current + 1].classList.add('active');
+        updateParentCounter(current + 2, slides.length);
+      }
+    }
+    
+    function goToPrevSlide() {
+      const slides = document.querySelectorAll('.slide');
+      let current = Array.from(slides).findIndex(s => s.classList.contains('active'));
+      
+      if (current > 0) {
+        console.log('Moving to previous slide:', current - 1);
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[current - 1].classList.add('active');
+        updateParentCounter(current, slides.length);
+      }
+    }
+    
+    function updateParentCounter(currentSlide, totalSlides) {
+      // 親ウィンドウにスライド番号を通知
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'slideChanged',
+          current: currentSlide,
+          total: totalSlides
+        }, '*');
+      }
+    }
+    
+    // JSで1枚ずつ切り替え（← →キー）
+    document.addEventListener('keydown', (e) => {
+      const slides = document.querySelectorAll('.slide');
+      let current = Array.from(slides).findIndex(s => s.classList.contains('active'));
+      
+      console.log('Total slides:', slides.length);
+      console.log('Current slide index:', current);
+      console.log('Key pressed:', e.key);
+      
+      if (e.key === 'ArrowRight' && current < slides.length - 1) {
+        goToNextSlide();
+      } else if (e.key === 'ArrowLeft' && current > 0) {
+        goToPrevSlide();
+      } else if (e.key === 'ArrowRight' && current === -1) {
+        // アクティブなスライドがない場合のフォールバック
+        console.log('No active slide found, activating first slide');
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[0].classList.add('active');
+        updateParentCounter(1, slides.length);
+      }
+    });
+    
+    // 親ウィンドウからのメッセージを受信
+    window.addEventListener('message', (event) => {
+      console.log('Received message:', event.data);
+      if (event.data.action === 'next') {
+        goToNextSlide();
+      } else if (event.data.action === 'prev') {
+        goToPrevSlide();
+      }
+    });
+    
+    // 初期化時にスライド数を表示
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      console.log('Page loaded. Total slides:', slides.length);
+      slides.forEach((slide, index) => {
+        console.log(`Slide ${index}:`, slide.className);
+      });
+      
+      // すべてのスライドを非表示にして、最初のスライドのみアクティブにする
+      slides.forEach(slide => slide.classList.remove('active'));
+      if (slides.length > 0) {
+        console.log('Activating first slide');
+        slides[0].classList.add('active');
+        updateParentCounter(1, slides.length);
+      }
+    });
+  </script>
+</body>
+</html>

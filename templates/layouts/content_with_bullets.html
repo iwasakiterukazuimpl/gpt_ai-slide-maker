@@ -1,0 +1,39 @@
+<div class="slide slide-content-with-bullets">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>{{ slide.title }}</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 説明文 -->
+    {% if slide.body %}
+    <div class="body-text">{{ slide.body }}</div>
+    {% endif %}
+
+    <!-- 箇条書き -->
+    <div class="bullets-section">
+        {% if slide.bullets %}
+            {% if slide.bullet_type == "numbered" or slide.bullet_type == "ordered" %}
+            <ol>
+                {% for item in slide.bullets %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% else %}
+            <ul>
+                {% for item in slide.bullets %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+    <!-- フッター（ページ数・コピーライト） -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+
+</div>

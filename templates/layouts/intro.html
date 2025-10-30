@@ -1,0 +1,41 @@
+<div class="slide slide-intro">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>{{ slide.title }}</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 本文 -->
+    <div class="body-text">
+        {% if slide.affiliation %}
+        <p><strong>所属：</strong>{{ slide.affiliation }}</p>
+        {% endif %}
+
+        {% if slide.name %}
+        <p><strong>氏名：</strong>{{ slide.name }}</p>
+        {% endif %}
+
+        {% if slide.career %}
+        <div class="career">
+            <strong>経歴：</strong>
+            <ul>
+                {% for item in slide.career %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if slide.comment %}
+        <p class="comment">“{{ slide.comment }}”</p>
+        {% endif %}
+    </div>
+
+    <!-- フッター -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+
+</div>

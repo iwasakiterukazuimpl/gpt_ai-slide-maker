@@ -1,0 +1,332 @@
+/* ========== 基本設定 ========== */
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: #f8fafc;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  .slide {
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    max-height: 675px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    display: none;
+    padding: 40px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .slide.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in;
+    z-index: 10;
+  }
+  
+  /* ========== 表紙スライド ========== */
+  .slide-title {
+    /* 背景は左上→右下のティール→グリーンのグラデーション */
+    background: linear-gradient(135deg, #83d1d8 0%, #b9e77e 100%);
+    color: #333;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  /* 左側のコンテンツ */
+  .title-content {
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    max-width: 90%;
+  }
+
+  .title-content h1 {
+    position: relative;
+    z-index: 3;
+    font-size: 3.1rem;
+    line-height: 1.2;
+    font-weight: 600;
+    margin: 12px 0 14px 0;
+    color: #313131;
+  }
+
+  .title-content p {
+    position: relative;
+    z-index: 3;
+    font-size: 1.2rem;
+    color: #313131;
+  }
+
+  /* 左側の白いボックス */
+  .title-info-box {
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 800px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    z-index: 3;
+  }
+
+  .logo-section {
+    margin-bottom: 30px;
+  }
+
+  .title-logo {
+    position: absolute;
+    width: 120px;
+    right: 50px;
+  }
+
+  .author-info {
+    text-align: right;
+    position: absolute;
+    bottom: 90px;              /* この行を追加 */
+    right: 60px;               /* この行を追加 */
+    width: 100%;
+  }
+
+  .company {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .author-name {
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* ========== 本文スライド ========== */
+  .slide-content {
+    background: #fff;
+    color: #333;
+  }
+  
+  /* ========== 自己紹介スライド ========== */
+  .slide-intro {
+    background: #fff;
+    color: #333;
+  }
+  
+  .slide-intro .body-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-top: 40px;
+  }
+  
+  .slide-intro .career {
+    margin-top: 20px;
+  }
+  
+  .slide-intro .career ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  .slide-intro .career li {
+    margin-bottom: 8px;
+  }
+  
+  .slide-intro .comment {
+    margin-top: 30px;
+    font-style: italic;
+    color: #7ac10f;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  /* 下部のグラデーションバー */
+  .slide-intro::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(90deg, #83d1d8 0%, #9ad55b 60%, #8dc31e 100%);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    z-index: 1;
+  }
+  /* 右側の斜めタグ（ページ番号エリア） */
+  .slide-intro::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 90px;
+    height: 40px;
+    background: #2f2f2f;
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    border-bottom-right-radius: 16px;
+    z-index: 2;
+  }
+  
+  /* ========== 表スライド ========== */
+  .slide-table {
+    background: #fff;
+    color: #333;
+  }
+  
+  .slide-table .body-text {
+    margin-top: 40px;
+  }
+  
+  .slide-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .slide-table table th {
+    background: #7ac10f;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  
+  .slide-table table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .slide-table table tr:hover {
+    background: #f5f5f5;
+  }
+  
+  .slide-table .note {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+  }
+  
+  /* 下部のグラデーションバー */
+  .slide-table::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(90deg, #83d1d8 0%, #9ad55b 60%, #8dc31e 100%);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    z-index: 1;
+  }
+  /* 右側の斜めタグ（ページ番号エリア） */
+  .slide-table::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 90px;
+    height: 40px;
+    background: #2f2f2f;
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    border-bottom-right-radius: 16px;
+    z-index: 2;
+  }
+  
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .slide-header h2 {
+    color: #7ac10f; /* タイトルのグリーン */
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+  .slide-header img {
+    max-width: 170px;
+  }
+  .slide-content .body-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-top: 40px;
+  }
+  /* 下部のグラデーションバー */
+  .slide-content::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(90deg, #83d1d8 0%, #9ad55b 60%, #8dc31e 100%);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    z-index: 1;
+  }
+  /* 右側の斜めタグ（ページ番号エリア） */
+  .slide-content::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 90px;
+    height: 40px;
+    background: #2f2f2f;
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    border-bottom-right-radius: 16px;
+    z-index: 2;
+  }
+  
+  /* ========== フッター（ページ数・コピーライト） ========== */
+.slide-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px; /* グラデーションバーと同じ高さ */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  z-index: 3; /* グラデーションより上に表示 */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.page-number {
+  font-weight: 600;
+}
+
+.copyright {
+  opacity: 0.9;
+}
+
+
+  /* ========== アニメーション ========== */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }                                                                                                                                                

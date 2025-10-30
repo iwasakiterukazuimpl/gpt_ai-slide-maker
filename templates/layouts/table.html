@@ -1,0 +1,41 @@
+<div class="slide slide-table">
+
+    <!-- ヘッダー -->
+    <div class="slide-header">
+        <h2>{{ slide.title }}</h2>
+        <img src="images/logo.png" alt="impl-logo">
+    </div>
+
+    <!-- 本文 -->
+    <div class="body-text">
+        <table>
+            <thead>
+                <tr>
+                    {% for header in slide.headers %}
+                    <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in slide.rows %}
+                <tr>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if slide.note %}
+        <p class="note">{{ slide.note }}</p>
+        {% endif %}
+    </div>
+
+    <!-- フッター -->
+    <div class="slide-footer">
+        <div class="copyright">Copyright &copy; impl Co.,Ltd. All Rights Reserved.</div>
+        <div class="page-number">{{ slide_index }}</div>
+    </div>
+
+</div>

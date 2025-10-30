@@ -1,92 +1,86 @@
 import json
-import os
-from openai import OpenAI
+import argparse
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-from dotenv import load_dotenv
 
-# .envファイルを読み込み
-load_dotenv()
-
-# GPTクライアント
-api_key = os.getenv("OPENAI_API_KEY")
-if not api_key:
-    print("⚠️ OPENAI_API_KEYが設定されていません。")
-    print(".envファイルに以下のように設定してください：")
-    print("OPENAI_API_KEY=your-api-key-here")
-    exit()
-
-client = OpenAI(api_key=api_key)
-
-# ==== CLI入力 ====
-print("🧠 スライド自動生成システム：Phase 2")
-theme = input("生成したいスライドの内容を入力してください：")
-slide_count = input("スライド枚数をおおよそ指定してください（例：5枚程度, 10枚程度）：")
-tone = input("テイストを選択してください（例：ビジネス / カジュアル / ナチュラル）：")
-text = input("スライドの文章量を生成してください（100文字程度, 200文字程度,・・・）：")
-
-# ==== GPTプロンプト ====
-prompt = f"""
-あなたはプレゼン資料を設計するAIです。
-以下の条件で、スライド構成をJSON形式で出力してください。
-
----
-テーマ: {theme}
-スライド枚数: {slide_count}
-テイスト（文体・語調）: {tone}
-1スライドあたりの本文量: {text}文字程度
-
-type は以下のいずれかを含めてください：
-- "title"（表紙）
-- "toc"（目次）
-- "content"（本文）
-- "summary"（まとめ）
-
-出力フォーマット：
-{{
-  "slides": [
-    {{"type": "title", "title": "スライドタイトル", "body": "本文"}},
-    ...
-  ]
-}}
-
-注意：
-- 内容に対してスライド枚数が不自然に多い場合は、無理に枚数を合わせず、適切な構成に調整してください。
-- 必ず有効なJSON形式で出力してください。
-- 各スライドの本文は1スライドあたりの本文量に合わせて生成してください。
-"""
-
-# ==== GPT呼び出し ====
-print("\n🤖 スライド構成を生成中...")
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "あなたは構成設計が得意な資料作成AIです。"},
-        {"role": "user", "content": prompt}
-    ],
-    temperature=0.7
-)
-
-# ==== JSON解析 ====
+# PDF変換
 try:
-    slides = json.loads(response.choices[0].message.content)["slides"]
-except Exception as e:
-    print("⚠️ JSONの解析に失敗しました。出力内容を表示します：")
-    print(response.choices[0].message.content)
-    exit()
+    import pdfkit
+except ImportError:
+    pdfkit = None
 
-# ==== スライド数制限 ====
-if len(slides) > 20:
-    print("⚠️ スライドが多すぎるため、20枚までに制限します。")
-    slides = slides[:20]
+# PPTX変換
+try:
+    from pptx import Presentation
+    from pptx.util import Inches, Pt
+except ImportError:
+    Presentation = None
 
-# ==== HTMLレンダリング ====
-env = Environment(loader=FileSystemLoader("./templates"))
-template = env.get_template("base.html")
-rendered = template.render(slides=slides)
+# ====== 設定 ======
+TEMPLATE_DIR = Path("templates")
+ASSETS_DIR = Path("assets")
+OUTPUT_HTML = Path("output.html")
+SLIDES_JSON = Path("slides.json")
 
-# ==== 出力 ====
-output_path = "output.html"
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(rendered)
+def generate_html(slides):
+    """HTMLをJinja2で生成"""
+    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    template = env.get_template("base.html")
+    return template.render(slides=slides)
 
-print(f"\n✅ スライド生成が完了しました！ → {output_path}")
+def export_pdf(html_path, output_pdf):
+    """HTMLをPDFに変換"""
+    if not pdfkit:
+        print("⚠️ pdfkitがインストールされていません。`pip install pdfkit` を実行してください。")
+        return
+    pdfkit.from_file(str(html_path), str(output_pdf))
+    print(f"✅ PDF生成完了: {output_pdf.resolve()}")
+
+def export_pptx(slides, output_pptx):
+    """JSONスライドからPPTX生成"""
+    if not Presentation:
+        print("⚠️ python-pptxがインストールされていません。`pip install python-pptx` を実行してください。")
+        return
+
+    prs = Presentation()
+
+    for slide in slides:
+        layout = prs.slide_layouts[1]  # タイトル＋本文
+        s = prs.slides.add_slide(layout)
+        s.shapes.title.text = slide["title"]
+        s.placeholders[1].text = slide["body"]
+
+    prs.save(output_pptx)
+    print(f"✅ PPTX生成完了: {output_pptx.resolve()}")
+
+def main():
+    # ====== CLI引数 ======
+    parser = argparse.ArgumentParser(description="AIスライド生成ツール")
+    parser.add_argument("--format", choices=["html", "pdf", "pptx"], default="html",
+                        help="出力形式を選択（html / pdf / pptx）")
+    args = parser.parse_args()
+
+    # ====== JSON読み込み ======
+    if not SLIDES_JSON.exists():
+        raise FileNotFoundError(f"❌ スライドデータが見つかりません: {SLIDES_JSON}")
+    with open(SLIDES_JSON, "r", encoding="utf-8") as f:
+        slides = json.load(f).get("slides", [])
+
+    if not slides:
+        raise ValueError("❌ JSONにスライドデータがありません。")
+
+    # ====== HTML生成 ======
+    rendered_html = generate_html(slides)
+    OUTPUT_HTML.write_text(rendered_html, encoding="utf-8")
+    print(f"✅ HTML生成完了: {OUTPUT_HTML.resolve()}")
+
+    # ====== 出力形式に応じて分岐 ======
+    if args.format == "pdf":
+        export_pdf(OUTPUT_HTML, Path("output.pdf"))
+    elif args.format == "pptx":
+        export_pptx(slides, Path("output.pptx"))
+    else:
+        print("💡 ブラウザでoutput.htmlを開いて確認してください。")
+
+if __name__ == "__main__":
+    main()
